@@ -18,8 +18,8 @@ const UserSchema=new mongoose.Schema(
         avatarUrl:String,
     },
     {
-        timeseries:true,
-    },
+        timestamps:true,
+    }
 
 )
 
