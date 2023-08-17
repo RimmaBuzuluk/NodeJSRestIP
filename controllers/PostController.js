@@ -80,7 +80,7 @@ export const remove= async(req, res)=>{
 
         if (!RemoveDocument) {
             return res.status(404).json({
-                message: "Не вдалось видалити  статтю"
+                message: "I couldn't see the article"
             });
         }
 
@@ -90,7 +90,38 @@ export const remove= async(req, res)=>{
     }catch(err){
         console.log(err)
         res.status(500).json({
-            message:"не вдалось видалити статті"
+            message:"I didn’t get far to see the article"
         })
     }
 }
+
+
+export const update = async (req, res) => {
+    try {
+      const postId = req.params.id;
+  
+      await PostModel.updateOne(
+        {
+          _id: postId,
+        },
+        {
+          title: req.body.title,
+          text: req.body.text,
+          imageUrl: req.body.imageUrl,
+          user: req.userId,
+          tags: req.body.tags,
+        },
+      );
+
+    
+  
+      res.json({
+        success: true,
+      });
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({
+        message: 'Failed to update article',
+      });
+    }
+  };
