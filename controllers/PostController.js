@@ -33,3 +33,64 @@ export const getAll= async(req, res)=>{
         })
     }
 }
+
+
+export const getOne= async(req, res)=>{
+    try{
+        const postId=req.params.id
+        
+        const updatedDocument=await PostModel.findOneAndUpdate(
+            {
+                _id:postId,
+            },
+            {
+                $inc:{viewsCount:1},
+            },
+            {
+                returnDocument:'after',
+            },
+              
+        ).exec()
+
+        if (!updatedDocument) {
+            return res.status(404).json({
+                message: "Не вдалось знайти статтю"
+            });
+        }
+
+        res.json(updatedDocument)
+    }catch(err){
+        console.log(err)
+        res.status(500).json({
+            message:"не вдалось отримати статтю"
+        })
+    }
+}
+
+export const remove= async(req, res)=>{
+    try{
+        const postId=req.params.id
+        
+        const RemoveDocument=await PostModel.findOneAndDelete(
+            {
+                _id:postId,
+            }
+              
+        ).exec()
+
+        if (!RemoveDocument) {
+            return res.status(404).json({
+                message: "Не вдалось видалити  статтю"
+            });
+        }
+
+        res.json({
+            success: true
+        })
+    }catch(err){
+        console.log(err)
+        res.status(500).json({
+            message:"не вдалось видалити статті"
+        })
+    }
+}
