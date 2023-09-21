@@ -66,7 +66,7 @@ export const getOne= async(req, res)=>{
                 returnDocument:'after',
             },
               
-        ).exec()
+        ).populate('user')
 
         if (!updatedDocument) {
             return res.status(404).json({
@@ -75,6 +75,7 @@ export const getOne= async(req, res)=>{
         }
 
         res.json(updatedDocument)
+        
     }catch(err){
         console.log(err)
         res.status(500).json({
